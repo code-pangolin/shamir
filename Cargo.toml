@@ -8,4 +8,7 @@ repository = "https://github.com/Nebulosus/shamir.git"
 license = "MIT"
 
 [dependencies]
-rand = "0.7.3"
+getrandom = "0.2.10"
+
+[features]
+wasm = ["getrandom/js"]
