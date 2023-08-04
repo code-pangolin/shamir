@@ -1,7 +1,6 @@
-extern crate rand;
+extern crate getrandom;
 
-use rand::{thread_rng, RngCore};
-
+use getrandom::getrandom;
 #[cfg(test)]
 mod tests {
     use super::SecretData;
@@ -107,10 +106,9 @@ pub enum ShamirError {
 impl SecretData {
     pub fn with_secret(secret: &str, threshold: u8) -> SecretData {
         let mut coefficients: Vec<Vec<u8>> = vec![];
-        let mut rng = thread_rng();
         let mut rand_container = vec![0u8; (threshold - 1) as usize];
         for c in secret.as_bytes() {
-            rng.fill_bytes(&mut rand_container);
+            getrandom(&mut rand_container).unwrap();
             let mut coef: Vec<u8> = vec![*c];
             for r in rand_container.iter() {
                 coef.push(*r);
